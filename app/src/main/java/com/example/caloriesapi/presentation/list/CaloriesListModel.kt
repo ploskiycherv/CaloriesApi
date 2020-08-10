@@ -14,12 +14,13 @@ class CaloriesListModel(
 ) : ViewModel() {
 
     private var disposableCalories: Disposable? = null
+    val ingr: String
 
     private val caloriesItemLiveData = MutableLiveData<List<CaloriesItem>>()
     fun caloriesItemLiveData(): LiveData<List<CaloriesItem>> = caloriesItemLiveData
 
-    private fun getListCalories(caloriesItemLiveData: MutableLiveData<List<CaloriesItem>>) {
-        disposableCalories = repo.getCaloriesList()
+    private fun getListCalories(ingr:String, caloriesItemLiveData: MutableLiveData<List<CaloriesItem>>) {
+        disposableCalories = repo.getCaloriesList(ingr)
             .subscribeOn(Schedulers.io())
             .map {
                 it.parsed!!.map { parsed ->

@@ -7,8 +7,8 @@ import io.reactivex.Single
 
 class CaloriesRepoImpl(private val api: Api) : CaloriesRepo {
 
-    override fun getCaloriesList(): Single<CaloriesResp> = api
-        .getCaloriesItem().map {
+    override fun getCaloriesList(ingr: String): Single<CaloriesResp> = api
+        .getCaloriesItem(ingr = ingr).map {
             if (it.isSuccessful && it.body() != null) {
                 it.body()!!
             } else {

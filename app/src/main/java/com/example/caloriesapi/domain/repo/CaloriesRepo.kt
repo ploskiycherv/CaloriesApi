@@ -5,6 +5,6 @@ import io.reactivex.Single
 
 interface CaloriesRepo {
 
-    fun getCaloriesList():Single<CaloriesResp>
+    fun getCaloriesList(ingr: String):Single<CaloriesResp>
 
 }
