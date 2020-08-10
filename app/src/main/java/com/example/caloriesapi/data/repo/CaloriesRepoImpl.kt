@@ -12,7 +12,7 @@ class CaloriesRepoImpl(private val api: Api) : CaloriesRepo {
             if (it.isSuccessful && it.body() != null) {
                 it.body()!!
             } else {
-                error("Bad data")
+                error("Enter product name")
             }
 
         }
