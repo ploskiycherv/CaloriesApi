@@ -5,7 +5,6 @@ import com.example.caloriesapi.data.api.Api
 import com.example.caloriesapi.data.repo.CaloriesRepoImpl
 import com.example.caloriesapi.domain.repo.CaloriesRepo
 import com.example.caloriesapi.presentation.list.CaloriesListModel
-import io.reactivex.Single
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -26,15 +25,15 @@ class App : Application() {
 
         val module: Module = module {
 
-            single<Retrofit> {                                                      // val retrofit: Retrofit =
-                Retrofit.Builder()                                                  // Retrofit.Builder()
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())      // .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .baseUrl(BASE_URL)                                              // .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())             // .addConverterFactory(GsonConverterFactory.create())
-                    .build()                                                        // .build()
+            single<Retrofit> {
+                Retrofit.Builder()
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
             }
 
-            single<Api> {                                                           // val api: Api = retrofit.create(Api::class.java)
+            single<Api> {
                 get<Retrofit>()
                     .create(Api::class.java)
             }

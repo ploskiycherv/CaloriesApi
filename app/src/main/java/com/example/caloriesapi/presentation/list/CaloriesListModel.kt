@@ -20,37 +20,38 @@ class CaloriesListModel(
     private val caloriesItemLiveData = MutableLiveData<List<CaloriesItem>>()
     fun caloriesItemLiveData(): LiveData<List<CaloriesItem>> = caloriesItemLiveData
 
-    fun changeFilter(filter:String){
+    private val errorLiveData = MutableLiveData<String>()
+    fun errorLiveData(): LiveData<String> = errorLiveData
+
+    fun changeFilter(filter: String) {
         this.filter = filter
-        getCalories(filter = filter)
+        getListCalories()
     }
 
-    private fun getListCalories(caloriesItemLiveData: MutableLiveData<List<CaloriesItem>>) {
+    fun getListCalories() {
         disposableCalories = repo.getCaloriesList(filter)
             .subscribeOn(Schedulers.io())
             .map {
-                it.parsed!!.map { parsed ->
-                    parsed.food!!.nutrients.let { nutrients ->
+                it.parsed?.map { parsed ->
+                    parsed.food?.nutrients?.let { nutrients ->
                         CaloriesItem(
-                            parsed.food.label!!,
-                            nutrients?.eNERCKCAL!!,
-                            nutrients.pROCNT!!,
-                            nutrients.fAT!!,
-                            nutrients.cHOCDF!!
+                            parsed.food.label.orEmpty(),
+                            nutrients.eNERCKCAL ?: 0.0,
+                            nutrients.pROCNT ?: 0.0,
+                            nutrients.fAT ?: 0.0,
+                            nutrients.cHOCDF ?: 0.0
                         )
                     }
-                }
+                }.orEmpty()
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                caloriesItemLiveData.value = it
+                it.filterNotNull().let { notNullItems ->
+                    caloriesItemLiveData.postValue(notNullItems)
+                }
             }, {
-
+                errorLiveData.postValue(it.message ?: "Something went wrong")
             })
-    }
-
-    fun getCalories(filter: String) {
-        getListCalories(caloriesItemLiveData)
     }
 
     override fun onCleared() {
