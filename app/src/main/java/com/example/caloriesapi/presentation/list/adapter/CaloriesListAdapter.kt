@@ -9,8 +9,7 @@ import com.example.caloriesapi.domain.entity.CaloriesItem
 import kotlinx.android.synthetic.main.calories_list_item.view.*
 
 class CaloriesListAdapter(
-    diffCallback: DiffUtil.ItemCallback<CaloriesItem>,
-    val onClickListener: OnItemClick
+    diffCallback: DiffUtil.ItemCallback<CaloriesItem>
 ) : ListAdapter<CaloriesItem, CaloriesListViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CaloriesListViewHolder =
