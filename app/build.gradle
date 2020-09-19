@@ -16,7 +16,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.example.caloriesapi"
+        applicationId "com.porey.zmih"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
